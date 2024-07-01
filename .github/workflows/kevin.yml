@@ -8,16 +8,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Check pull request title and description for a valid JIRA ticket reference
+      - name: Check pull request branch, title, and description for a valid JIRA ticket reference
         id: check_pr
         run: |
-          #[A-Z]{2,}-\d+(\>|$|\s)
           regex='RMM-[0-9]+(\>|$|\s)'
           pr_title="${{ github.event.pull_request.title }}"
           pr_body="${{ github.event.pull_request.body }}"
           if echo "$pr_title" | grep -qE "$regex"; then
             echo "Pull request title contains a valid JIRA ticket reference."
-            exit 0
+            exit 1
           fi
           if echo "$pr_body" | grep -qE "$regex"; then
             echo "Pull request description contains a valid JIRA ticket reference."
