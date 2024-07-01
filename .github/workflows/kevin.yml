@@ -12,13 +12,18 @@ jobs:
         id: check_pr
         run: |
           regex='RMM-[0-9]+(\>|$|\s)'
-          pr_title="${{ github.event.pull_request.title }}"
-          pr_body="${{ github.event.pull_request.body }}"
-          if echo "$pr_title" | grep -qE "$regex"; then
+
+          PR_BRANCH="${{ github.event.pull_request.head.ref }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_BODY="${{ github.event.pull_request.body }}"
+
+          echo "PR BRANCH NAME = ${PR_BRANCH}"
+
+          if echo "$PR_TITLE" | grep -qE "$regex"; then
             echo "Pull request title contains a valid JIRA ticket reference."
             exit 1
           fi
-          if echo "$pr_body" | grep -qE "$regex"; then
+          if echo "$PR_BODY" | grep -qE "$regex"; then
             echo "Pull request description contains a valid JIRA ticket reference."
             exit 0
           fi
