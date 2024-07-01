@@ -6,12 +6,13 @@ jobs:
   check-jira-reference:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
       - name: Check pull request title and description for a valid JIRA ticket reference
         id: check_pr
         run: |
           echo "this is a test"
+          echo "something has gone wrong"
           exit 0
           ##[A-Z]{2,}-\d+(\>|$|\s)
           #regex='RMM-[0-9]+(\>|$|\s)'
@@ -27,6 +28,6 @@ jobs:
           #fi
           #echo "Neither the pull request title nor the description contain a valid JIRA ticket reference."
           #exit 1
-      - name: Set PR status
-        if: failure()
-        run: exit 1
+      # - name: Set PR status
+      #   if: failure()
+      #   run: exit 1
