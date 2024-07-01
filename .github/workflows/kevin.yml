@@ -13,7 +13,7 @@ jobs:
         run: |
           echo "this is a test"
           echo "something has gone wrong"
-          exit 0
+          exit 1
           ##[A-Z]{2,}-\d+(\>|$|\s)
           #regex='RMM-[0-9]+(\>|$|\s)'
           #pr_title="${{ github.event.pull_request.title }}"
