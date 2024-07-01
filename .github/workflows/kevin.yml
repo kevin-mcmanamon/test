@@ -18,7 +18,7 @@ jobs:
           PR_BODY="${{ github.event.pull_request.body }}"
 
           if ! echo "$PR_BRANCH" | grep -qE "$regex"; then
-            echo "Pull request branch does not contain a valid JIRA ticket reference.  Therefore, the JIRA ticket will be unable to link to the PR."
+            echo "Pull request branch ${PR_BRANCH} does not contain a valid JIRA ticket reference.  Therefore, the JIRA ticket will be unable to link to the PR."
             exit 1
           fi
 
