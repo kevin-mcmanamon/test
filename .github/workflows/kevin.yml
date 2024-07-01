@@ -11,21 +11,26 @@ jobs:
       - name: Check pull request branch, title, and description for a valid JIRA ticket reference
         id: check_pr
         run: |
-          regex='RMM-[0-9]+(\>|$|\s)'
+          regex='RMM-\d{4,}'
 
           PR_BRANCH="${{ github.event.pull_request.head.ref }}"
           PR_TITLE="${{ github.event.pull_request.title }}"
           PR_BODY="${{ github.event.pull_request.body }}"
 
-          echo "PR BRANCH NAME = ${PR_BRANCH}"
+          if ! echo "$PR_BRANCH" | grep -qE "$regex"; then
+            echo "Pull request branch does not contain a valid JIRA ticket reference.  Therefore, the JIRA ticket will be unable to link to the PR."
+            exit 1
+          fi
 
           if echo "$PR_TITLE" | grep -qE "$regex"; then
             echo "Pull request title contains a valid JIRA ticket reference."
-            exit 1
+            exit 0
           fi
+
           if echo "$PR_BODY" | grep -qE "$regex"; then
             echo "Pull request description contains a valid JIRA ticket reference."
             exit 0
           fi
+
           echo "Neither the pull request title nor the description contain a valid JIRA ticket reference."
           exit 1
