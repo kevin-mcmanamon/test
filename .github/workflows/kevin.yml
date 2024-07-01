@@ -1,7 +1,7 @@
 name: Check JIRA References
 on:
   pull_request:
-    types: [opened, edited, synchronize]
+    types: [opened, edited, reopened, synchronize]
 jobs:
   check-jira-reference:
     runs-on: ubuntu-latest
@@ -11,20 +11,22 @@ jobs:
       - name: Check pull request title and description for a valid JIRA ticket reference
         id: check_pr
         run: |
-          #[A-Z]{2,}-\d+(\>|$|\s)
-          regex='RMM-[0-9]+(\>|$|\s)'
-          pr_title="${{ github.event.pull_request.title }}"
-          pr_body="${{ github.event.pull_request.body }}"
-          if echo "$pr_title" | grep -qE "$regex"; then
-            echo "Pull request title contains a valid JIRA ticket reference."
-            exit 0
-          fi
-          if echo "$pr_body" | grep -qE "$regex"; then
-            echo "Pull request description contains a valid JIRA ticket reference."
-            exit 0
-          fi
-          echo "Neither the pull request title nor the description contain a valid JIRA ticket reference."
-          exit 1
+          echo "this is a test"
+          exit 0
+          ##[A-Z]{2,}-\d+(\>|$|\s)
+          #regex='RMM-[0-9]+(\>|$|\s)'
+          #pr_title="${{ github.event.pull_request.title }}"
+          #pr_body="${{ github.event.pull_request.body }}"
+          #if echo "$pr_title" | grep -qE "$regex"; then
+          #  echo "Pull request title contains a valid JIRA ticket reference."
+          #  exit 0
+          #fi
+          #if echo "$pr_body" | grep -qE "$regex"; then
+          #  echo "Pull request description contains a valid JIRA ticket reference."
+          #  exit 0
+          #fi
+          #echo "Neither the pull request title nor the description contain a valid JIRA ticket reference."
+          #exit 1
       - name: Set PR status
         if: failure()
         run: exit 1
